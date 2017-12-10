@@ -4,7 +4,9 @@ var router = express.Router();
 var helpers = require('../helpers');
 
 router.post('/', function (req, res, next) {
-	if (req.body['event'] == 'VerificationRequestEvent') {
+	if (req.body['event'] === )	
+
+	else if (req.body['event'] === 'VerificationRequestEvent') {
 	    if (helpers.lookUpNumber(req.body['identity']['endpoint'])) {
 	      res.json({ action: 'allow' });
 	 
@@ -12,8 +14,8 @@ router.post('/', function (req, res, next) {
 	      res.json({ 'action': 'deny' });
 	    }
 	}
-	else if (req.body['event'] == 'VerificationResultEvent') {
-	  	if (req.body['status'] == 'SUCCESSFUL') {
+	else if (req.body['event'] === 'VerificationResultEvent') {
+	  	if (req.body['status'] === 'SUCCESSFUL') {
 		  //remove the number if it was SUCCESSFUL
 		  helpers.removeNumber(req.body['identity']['endpoint']);
 		  res.status(200); //Sinch realy dosent care if you reply but its a nice gesture to reply to us :D
