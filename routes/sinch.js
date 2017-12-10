@@ -4,8 +4,9 @@ var router = express.Router();
 var helpers = require('../helpers');
 
 router.post('/', function (req, res, next) {
-	if (req.body['event'] === )	
-
+	if (req.body['event'] === 'ice'){
+		
+	}	
 	else if (req.body['event'] === 'VerificationRequestEvent') {
 	    if (helpers.lookUpNumber(req.body['identity']['endpoint'])) {
 	      res.json({ action: 'allow' });

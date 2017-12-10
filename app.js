@@ -2,8 +2,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var router = require('./routes/sinch');
-const siptestkey = process.env.siptestkey;
-const siptestsecret = process.env.siptestsecret;
+const siptestkey = process.env.siptestkey || '';
+const siptestsecret = process.env.siptestsecret || '';
 
 //set up an app
 var app = express();
