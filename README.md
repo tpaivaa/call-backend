@@ -4,6 +4,8 @@ Sinch backend controlling calls
 Node.js Express
 
 
+
+```
 [ice]
 {
   "event": "ice",
@@ -24,3 +26,4 @@ Node.js Express
   "applicationKey": "",
   "originationType": "PSTN"
 }
+```
