@@ -19,8 +19,15 @@ var removeNumber = (number) => {
   }
 };
 
+var sayHello = {
+    name : "Say",
+    text : "Hello, this is a text to speech message",
+    locale : "en-US"
+};
+
 module.exports = {
 	numbers,
 	removeNumber,
-	lookUpNumber
-}
+	lookUpNumber,
+	sayHello
+};

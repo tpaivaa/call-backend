@@ -5,7 +5,7 @@ var helpers = require('../helpers');
 
 router.post('/', function (req, res, next) {
 	if (req.body['event'] === 'ice'){
-		
+		res.json(helpers.sayHello);
 	}	
 	else if (req.body['event'] === 'VerificationRequestEvent') {
 	    if (helpers.lookUpNumber(req.body['identity']['endpoint'])) {
