@@ -22,9 +22,17 @@ var removeNumber = (number) => {
 var sayHello = {
 	Instructions: [{
 	    name : "Say",
-	    text : "Hello, this is a text to speech message",
-	    locale : "en-US"
-    }]
+	    text : "Hello, puhelu välitetään testi numeroon",
+	    locale : "fi-FI"
+    }],
+    Action:
+    {
+        name : "ConnectPSTN",
+        maxDuration : 600,
+        number : "+46000000000",
+        cli : "+358408687375",
+        suppressCallbacks : false
+    }
 };
 
 module.exports = {
