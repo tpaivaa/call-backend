@@ -16,11 +16,11 @@ Node.js Express
     "currencyId": "USD",
     "amount": 0
   },
-  "cli": "358408687375",
-  "rdnis": "358931584391",
+  "cli": "",
+  "rdnis": "",
   "to": {
     "type": "did",
-    "endpoint": "+358931584391"
+    "endpoint": "+"
   },
   "domain": "pstn",
   "applicationKey": "",
