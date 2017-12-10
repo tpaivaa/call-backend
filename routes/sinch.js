@@ -1,12 +1,19 @@
+"use strict";
 // add requires
-var express = require('express');
-var router = express.Router();
-var helpers = require('../helpers');
+let express = require('express');
+let router = express.Router();
+let helpers = require('../helpers');
 
 router.post('/', function (req, res, next) {
-	if (req.body['event'] === 'ice'){
-		console.log(JSON.stringify(helpers.sayHello));
-		res.json(helpers.sayHello);
+	if (req.body.event === 'ice'){
+		helpers.callRouter
+		.then((reply) => {
+			res.json(reply);
+		})
+		.catch((err) => {
+			console.log(err);
+			res.json(helpers.rejectCall);
+		});
 	}	
 	else if (req.body['event'] === 'VerificationRequestEvent') {
 	    if (helpers.lookUpNumber(req.body['identity']['endpoint'])) {
