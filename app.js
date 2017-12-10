@@ -1,7 +1,8 @@
 // add requires
 var express = require('express');
 var bodyParser = require('body-parser');
-var router = require('./routes/sinch');
+var routes = require('./routes');
+var sinch = require('./routes/sinch');
 const siptestkey = process.env.siptestkey || '';
 const siptestsecret = process.env.siptestsecret || '';
 
@@ -20,9 +21,11 @@ function logResponseBody(req, res, next) {
 //congigure body parsing for the app, 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(logResponseBody); 
+app.use(logResponseBody);
+
+app.use('/', routes); 
 //add the sinch route 
-app.use('/sinch', router);
+app.use('/sinch', sinch);
  
 //add default content type for all requests
 app.use(function (req, res, next) {
