@@ -20,11 +20,11 @@ var removeNumber = (number) => {
 };
 
 var sayHello = {
-	instruction: {
+	Instructions: [{
 	    name : "Say",
 	    text : "Hello, this is a text to speech message",
 	    locale : "en-US"
-    }
+    }]
 };
 
 module.exports = {
