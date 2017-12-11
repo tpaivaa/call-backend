@@ -6,7 +6,7 @@ let helpers = require('../helpers');
 
 router.post('/', function (req, res, next) {
 	if (req.body.event === 'ice'){
-		helpers.callRouter
+		helpers.callRouter(req,res,next)
 		.then((reply) => {
 			res.json(reply);
 		})
