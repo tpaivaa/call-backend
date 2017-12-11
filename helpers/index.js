@@ -8,7 +8,7 @@ const inKamailio = [
 ];
 var lookUpNumber = (number, list) =>  {
   for (var p in list) {
-    if (list[p] === number) {
+    if (list[p] == number) {
       return true;
     }
   }
@@ -31,7 +31,7 @@ var callRouter = (req,res,next) => {
 			resolve(toKamailioWithWelcome(null,callerID,calledID,null)); // message,callerID,calledID,recordCall
 		}
 		else {
-			reject(calledID + 'number not in allowed list');
+			reject(calledID + ' number not in allowed list');
 		}
 	});
 };
