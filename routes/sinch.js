@@ -8,6 +8,7 @@ router.post('/', function (req, res, next) {
 	if (req.body.event === 'ice'){
 		helpers.callRouter(req,res,next)
 		.then((reply) => {
+			console.log(JSON.stringify(reply));
 			res.json(reply);
 		})
 		.catch((err) => {
