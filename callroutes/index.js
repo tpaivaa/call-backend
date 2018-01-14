@@ -12,7 +12,7 @@ var toKamailioWithWelcome = (message,callerID,calledID,recordCall) => {
 			{
 			    name : "ConnectSIP",
 			    destination : {
-			    		endpoint: calledID + "@obelix1.lucentia.com" },
+			    		endpoint: calledID + "@obelix2.lucentia.com" },
 			    maxDuration : 3000,
 			    cli : callerID || "private",
 			    record: recordCall || false,
