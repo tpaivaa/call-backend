@@ -1,6 +1,7 @@
 "use strict";
 
 let toKamailioWithWelcome = require('../callroutes').toKamailioWithWelcome;
+let toKamailio = require('../callroutes').toKamailio;
 
 var numbers = [];
 const inKamailio = [
@@ -28,7 +29,8 @@ var callRouter = (req,res,next) => {
 		let callerID = '+' + req.body.cli;
 		let calledID = req.body.to.endpoint;
 		if (lookUpNumber(req.body.rdnis, inKamailio)) {
-			resolve(toKamailioWithWelcome(null,callerID,calledID,null)); // message,callerID,calledID,recordCall
+			//resolve(toKamailioWithWelcome(null,callerID,calledID,null)); // message,callerID,calledID,recordCall
+			resolve(toKamailio(callerID,calledID,null)); // callerID,calledID,recordCall
 		}
 		else {
 			reject(calledID + ' number not in allowed list');
