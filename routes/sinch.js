@@ -15,7 +15,15 @@ router.post('/', function (req, res, next) {
 			console.log(err);
 			res.json(helpers.rejectCall);
 		});
-	}	
+	}
+	else if (req.body['event'] === 'ace') {
+	    if (helpers.isCallidInArray(req.body.callid)) {
+	      res.json({ 'action': {'name': 'Continue'} });
+	 
+	    } else {
+	      res.json({ 'action': {'name':'Hangup'} });
+	    }
+	}
 	else if (req.body['event'] === 'VerificationRequestEvent') {
 	    if (helpers.lookUpNumber(req.body['identity']['endpoint'])) {
 	      res.json({ action: 'allow' });
