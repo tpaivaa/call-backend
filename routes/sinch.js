@@ -6,6 +6,7 @@ let helpers = require('../helpers');
 
 router.post('/', function (req, res, next) {
 	if (req.body.event === 'ice'){
+		console.log('|--> CALL START');
 		helpers.callRouter(req,res,next)
 		.then((reply) => {
 			console.log(JSON.stringify(reply));
@@ -17,12 +18,18 @@ router.post('/', function (req, res, next) {
 		});
 	}
 	else if (req.body['event'] === 'ace') {
+		console.log('>-- ANSWER -->');
 	    if (helpers.isCallidInArray(req.body.callid)) {
 	      res.json({ 'action': {'name': 'Continue'} });
 	 
 	    } else {
 	      res.json({ 'action': {'name':'Hangup'} });
 	    }
+	}
+	else if (req.body.event === 'dice') {
+		helpers.removeCallIDFromArray(req);
+		console.log('>--| CALL END');
+		console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
 	}
 	else if (req.body['event'] === 'VerificationRequestEvent') {
 	    if (helpers.lookUpNumber(req.body['identity']['endpoint'])) {

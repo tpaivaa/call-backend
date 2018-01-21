@@ -37,6 +37,11 @@ var isCallidInArray = (callid, arr) => {
 	}
 };
 
+var removeCallIDFromArray = (req, arr) => {
+	arr = allowedCallIDs;
+	delete allowedCallIDs[req.body.callid];
+};
+
 var callRouter = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		let callerID = '+' + req.body.cli;
@@ -90,6 +95,7 @@ module.exports = {
 	isCallidInArray,
 	lookUpNumber,
 	sayHello,
+	removeCallIDFromArray,
 	callRouter,
 	rejectCall
 };
