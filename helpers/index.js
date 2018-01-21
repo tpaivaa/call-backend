@@ -39,6 +39,7 @@ var isCallidInArray = (callid, arr) => {
 
 var removeCallIDFromArray = (req, arr) => {
 	arr = allowedCallIDs;
+	console.log('Removing from array callid :',req.body.callid);
 	delete allowedCallIDs[req.body.callid];
 };
 
