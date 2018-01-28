@@ -5,12 +5,12 @@ let toKamailio = require('../callroutes').toKamailio;
 let svaml = require('./svaml');
 let callRouter = require('./callRouter').callRouter;
 
-var numbers = [];
+let numbers = [];
 let allowedCallIDs = [];
 const inKamailio = [
 		358931584391,358931585319,358942415835,358942415975,358942415980
 ];
-var lookUpNumber = (number, list) =>  {
+let lookUpNumber = (number, list) =>  {
   for (var p in list) {
     if (list[p] == number) {
       return true;
@@ -19,7 +19,7 @@ var lookUpNumber = (number, list) =>  {
   return false;
 };
 
-var removeNumber = (number) => {
+let removeNumber = (number) => {
   for (var p in numbers) {
     if (numbers[p] == number) {
       numbers.splice(p, 1);
@@ -27,7 +27,7 @@ var removeNumber = (number) => {
   }
 };
 
-var isCallidInArray = (callid, arr) => {
+let isCallidInArray = (callid, arr) => {
  	console.log(arr);
 	arr  = allowedCallIDs;
 	console.log(arr);
@@ -39,14 +39,14 @@ var isCallidInArray = (callid, arr) => {
 	}
 };
 
-var removeCallIDFromArray = (req, arr) => {
+let removeCallIDFromArray = (req, arr) => {
 	arr = allowedCallIDs;
 	console.log('Removing from array callid :',req.body.callid);
 	delete allowedCallIDs[req.body.callid];
 };
 
 
-var sayHello = {
+let sayHello = {
 	Instructions: [{
 	    name : "Say",
 	    text : "Hello, puhelu välitetään testi numeroon",

@@ -33,6 +33,7 @@ let callRouter = (req,res,next) => {
 };
 
 let inBound = (req,res,next) => {
+	lookUpNumber = lookUpNumber;
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ice'){
 				console.log('|--> CALL START');
