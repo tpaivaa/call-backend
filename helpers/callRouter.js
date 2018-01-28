@@ -1,12 +1,12 @@
 "use strict";
 "use es:6";
-let isCallidInArray = require('helpers').isCallidInArray;
-let removeCallIDFromArray = require('helpers').removeCallIDFromArray;
-let lookUpNumber = require('helpers').lookUpNumber;
-let removeNumber = require('helpers').removeNumber;
-let allowedCallIDs = require('helpers').allowedIDs;
-let toKamailio = require('helpers').toKamailio;
-let inKamailio = require('helpers').inKamailio;
+let isCallidInArray = require('../helpers').isCallidInArray;
+let removeCallIDFromArray = require('../helpers').removeCallIDFromArray;
+let lookUpNumber = require('../helpers').lookUpNumber;
+let removeNumber = require('../helpers').removeNumber;
+let allowedCallIDs = require('../helpers').allowedIDs;
+let toKamailio = require('../helpers').toKamailio;
+let inKamailio = require('../helpers').inKamailio;
 
 let svaml = require('./svaml');
 
