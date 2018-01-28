@@ -86,7 +86,7 @@ let inBound = (req,res,next) => {
 
 let outBound = (req,res,next) => {
 	return new Promise((resolve, reject) => {
-		reject(svaml.nok);
+		reject(svaml.action.hangup);
 	});
 	
 };
