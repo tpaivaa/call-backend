@@ -2,6 +2,7 @@
 
 let toKamailioWithWelcome = require('../callroutes').toKamailioWithWelcome;
 let toKamailio = require('../callroutes').toKamailio;
+let toPSTN = require('../callroutes').toPSTN;
 let svaml = require('./svaml');
 
 var numbers = [];
@@ -27,10 +28,14 @@ let removeNumber = (number) => {
   }
 };
 
-let isCallidInArray = (callid, arr) => {
- 	console.log(arr);
-	arr  = allowedCallIDs;
-	console.log(arr);
+let isCallidInArray = (callid, arr, dir) => {
+ 	if (dir === 'in'){
+		arr = allowedInCallIDs;	
+	}
+	else {
+		arr = allowedOutCallIDs;
+	}
+	
 	if (arr.findIndex(_strCheck) === -1) return false;
 		return true;
 
@@ -50,7 +55,7 @@ let addCallIDToArray = (req, arr, dir) => {
 	arr.push(req.body.callid);
 };
 
-let removeCallIDFromArray = (req, arr) => {
+let removeCallIDFromArray = (req, arr, dir) => {
 	if (dir === 'in'){
 		arr = allowedInCallIDs;	
 	}
@@ -122,7 +127,7 @@ let inBound = (req,res,next) => {
 				let callerID = '+' + req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.rdnis, inKamailio)) {
-					addCallIDToArray(req.body.callid);
+					addCallIDToArray(req.body.callid, null, 'in');
 					resolve(toKamailio(callerID,calledID,null)); // callerID,calledID,recordCall
 				}
 				else {
@@ -132,23 +137,23 @@ let inBound = (req,res,next) => {
 			}
 			else if (req.body.event === 'ace') {
 				console.log('>-- ANSWER -->');
-			    if (isCallidInArray(req.body.callid)) {
+			    if (isCallidInArray(req.body.callid, null, 'in')) {
 			      resolve(svaml.action.continue);
-			 
-			    } else {
+			    } 
+			    else {
 			      reject(svaml.action.hangup);
 			    }
 			}
 			else if (req.body.event === 'dice') {
-				removeCallIDFromArray(req);
+				removeCallIDFromArray(req, null, 'in');
 				console.log('>--| inBound CALL END');
 				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
 			}
 			else if (req.body.event === 'VerificationRequestEvent') {
 			    if (lookUpNumber(req.body.identity.endpoint)) {
 			      resolve(svaml.action.allow);
-			 
-			    } else {
+			    } 
+			    else {
 			      reject(svaml.action.deny);
 			    }
 			}
@@ -173,7 +178,7 @@ let outBound = (req,res,next) => {
 				let callerID = req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.cli, inKamailio)) {
-					addCallIDToArray(reg.body.callid);
+					addCallIDToArray(req.body.callid, null, 'out');
 					resolve(toPSTN(callerID,calledID,null)); // callerID,calledID,recordCall
 				}
 				else {
@@ -183,23 +188,23 @@ let outBound = (req,res,next) => {
 			}
 			else if (req.body.event === 'ace') {
 				console.log('>-- ANSWER -->');
-			    if (isCallidInArray(req.body.callid)) {
+			    if (isCallidInArray(req.body.callid, null, 'out')) {
 			      resolve(svaml.action.continue);
-			 
-			    } else {
+			 	} 
+			    else {
 			      reject(svaml.action.hangup);
 			    }
 			}
 			else if (req.body.event === 'dice') {
-				removeCallIDFromArray(req);
+				removeCallIDFromArray(req, null, 'out');
 				console.log('>--| inBound CALL END');
 				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
 			}
 			else if (req.body.event === 'VerificationRequestEvent') {
 			    if (lookUpNumber(req.body.identity.endpoint)) {
 			      resolve(svaml.action.allow);
-			 
-			    } else {
+			    } 
+			    else {
 			      reject(svaml.action.deny);
 			    }
 			}
