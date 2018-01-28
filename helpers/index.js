@@ -6,8 +6,7 @@ let toPSTN = require('../callroutes').toPSTN;
 let svaml = require('./svaml');
 
 var numbers = [];
-let allowedInCallIDs = [];
-let allowedOutCallIDs = [];
+let allowedCallIDs = [];
 const inKamailio = [
 		358931584391,358931585319,358942415835,358942415975,358942415980
 ];
@@ -28,13 +27,8 @@ let removeNumber = (number) => {
   }
 };
 
-let isCallidInArray = (callid, arr, dir) => {
- 	if (dir === 'in'){
-		arr = allowedInCallIDs;	
-	}
-	else {
-		arr = allowedOutCallIDs;
-	}
+let isCallidInArray = (callid, arr) => {
+	arr = allowedCallIDs;	
 	
 	if (arr.findIndex(_strCheck) === -1) return false;
 		return true;
@@ -45,23 +39,14 @@ let isCallidInArray = (callid, arr, dir) => {
 };
 
 let addCallIDToArray = (callid, arr, dir) => {
-	if (dir === 'in'){
-		arr = allowedInCallIDs;	
-	}
-	else {
-		arr = allowedOutCallIDs;
-	}
+	arr = allowedCallIDs;	
+
 	console.log('Adding to allowed id\'s array callid : ',callid);
 	arr.push(callid);
 };
 
 let removeCallIDFromArray = (callid, arr, dir) => {
-	if (dir === 'in'){
-		arr = allowedInCallIDs;	
-	}
-	else {
-		arr = allowedOutCallIDs;
-	}
+	arr = allowedCallIDs;	
 	console.log('Removing from array callid :',callid);
 	delete arr[callid];
 };
@@ -99,7 +84,7 @@ let rejectCall = (message) => {
 
 let callRouter = (req,res,next) => {
 	return new Promise((resolve, reject) => {
-		if (req.body.originationType === 'PSTN'){
+		if (req.body.originationType === 'PSTN') {
 				inBound(req,res,next)
 				.then((reply) => {
 					resolve(reply);
@@ -116,6 +101,15 @@ let callRouter = (req,res,next) => {
 				.catch((err) => {
 					reject(err);
 				});
+		}
+		else {
+			inCallhandle(req,res,next)
+			.then((reply) => {
+				resolve(reply);
+			})
+			.catch((err) => {
+				reject(err);
+			});
 		}
 	});
 };
@@ -134,20 +128,6 @@ let inBound = (req,res,next) => {
 					console.log('Call rejected callid: ',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
-			}
-			else if (req.body.event === 'ace') {
-				console.log('>-- ANSWER -->');
-			    if (isCallidInArray(req.body.callid, null, 'in')) {
-			      resolve(svaml.action.continue);
-			    } 
-			    else {
-			      reject(svaml.action.hangup);
-			    }
-			}
-			else if (req.body.event === 'dice') {
-				removeCallIDFromArray(req, null, 'in');
-				console.log('>--| inBound CALL END');
-				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
 			}
 			else if (req.body.event === 'VerificationRequestEvent') {
 			    if (lookUpNumber(req.body.identity.endpoint)) {
@@ -186,28 +166,6 @@ let outBound = (req,res,next) => {
 					reject(calledID + ' number not in allowed list');
 				}
 			}
-			else if (req.body.event === 'ace') {
-				console.log('>-- ANSWER -->');
-			    if (isCallidInArray(req.body.callid, null, 'out')) {
-			      resolve(svaml.action.continue);
-			 	} 
-			    else {
-			      reject(svaml.action.hangup);
-			    }
-			}
-			else if (req.body.event === 'dice') {
-				removeCallIDFromArray(req.body.callid, null, 'out');
-				console.log('>--| inBound CALL END');
-				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
-			}
-			else if (req.body.event === 'VerificationRequestEvent') {
-			    if (lookUpNumber(req.body.identity.endpoint)) {
-			      resolve(svaml.action.allow);
-			    } 
-			    else {
-			      reject(svaml.action.deny);
-			    }
-			}
 			else if (req.body.event === 'VerificationResultEvent') {
 			  	if (req.body.status === 'SUCCESSFUL') {
 				  //remove the number if it was SUCCESSFUL
@@ -222,4 +180,22 @@ let outBound = (req,res,next) => {
 		});
 };
 
+let inCallhandle = (req,res,next) => {
+	return new Promise((resolve, reject) => {
+		if (req.body.event === 'ace') {
+				console.log('>-- ANSWER -->');
+			    if (isCallidInArray(req.body.callid)) {
+			      resolve(svaml.action.continue);
+			 	} 
+			    else {
+			      reject(svaml.action.hangup);
+			    }
+			}
+		else if (req.body.event === 'dice') {
+				removeCallIDFromArray(req.body.callid);
+				console.log('>--| inBound CALL END');
+				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
+			}
+		});
+};
 module.exports = { callRouter, numbers };
