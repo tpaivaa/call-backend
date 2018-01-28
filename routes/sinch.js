@@ -25,6 +25,9 @@ router.post('/addnumber', function (req, res) {
   res.json({ message: 'Ok', numbers: helpers.numbers });
 });
 
+router.get('/getnumbers', function (req, res) {
+  res.json({ message: 'Ok', numbers: helpers.numbers });
+});
 
 
 

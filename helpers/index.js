@@ -44,26 +44,26 @@ let isCallidInArray = (callid, arr, dir) => {
 	}
 };
 
-let addCallIDToArray = (req, arr, dir) => {
+let addCallIDToArray = (callid, arr, dir) => {
 	if (dir === 'in'){
 		arr = allowedInCallIDs;	
 	}
 	else {
 		arr = allowedOutCallIDs;
 	}
-	console.log('Adding to allowed id\'s array callid : ',req.body.callid);
-	arr.push(req.body.callid);
+	console.log('Adding to allowed id\'s array callid : ',callid);
+	arr.push(callid);
 };
 
-let removeCallIDFromArray = (req, arr, dir) => {
+let removeCallIDFromArray = (callid, arr, dir) => {
 	if (dir === 'in'){
 		arr = allowedInCallIDs;	
 	}
 	else {
 		arr = allowedOutCallIDs;
 	}
-	console.log('Removing from array callid :',req.body.callid);
-	delete arr[req.body.callid];
+	console.log('Removing from array callid :',callid);
+	delete arr[callid];
 };
 
 
@@ -196,7 +196,7 @@ let outBound = (req,res,next) => {
 			    }
 			}
 			else if (req.body.event === 'dice') {
-				removeCallIDFromArray(req, null, 'out');
+				removeCallIDFromArray(req.body.callid, null, 'out');
 				console.log('>--| inBound CALL END');
 				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
 			}
