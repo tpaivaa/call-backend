@@ -15,12 +15,20 @@ let callRouter = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.originationType === 'pstn'){
 			return new Promise((resolve, reject) => {
-				inBound(req,res,next);
+				inBound(req,res,next)
+				.catch((err) => {
+					console.log(err);
+					reject(err);
+				});
 			});
 		}
 		else if (req.body.originationType === 'SIP') {
 			return new Promise((resolve, reject) => {
-				outBound(req,res,next);
+				outBound(req,res,next)
+				.catch((err) => {
+					console.log(err);
+					reject(err);
+				});
 			});
 		}
 	});
