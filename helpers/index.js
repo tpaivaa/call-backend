@@ -222,16 +222,4 @@ let outBound = (req,res,next) => {
 		});
 };
 
-module.exports = {
-	numbers:numbers,
-	allowedCallIDs,
-	removeNumber,
-	isCallidInArray,
-	lookUpNumber,
-	sayHello,
-	removeCallIDFromArray,
-	callRouter,
-	rejectCall,
-	toKamailio,
-	inKamailio
-};
+module.exports = { callRouter, numbers };

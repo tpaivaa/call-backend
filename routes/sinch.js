@@ -21,8 +21,8 @@ router.post('/addnumber', function (req, res) {
   //your custom api security like an oath bearer token
   //in this tutorials we are going to save the numbers in memory, 
   //in production you prob want to either persist it or use a rediscache or similiar
-  helpers.numbers.push(req.body['number']);
-  res.json({ message: 'Ok' });
+  helpers.numbers.push(req.body.number);
+  res.json({ message: 'Ok', numbers: helpers.numbers });
 });
 
 
