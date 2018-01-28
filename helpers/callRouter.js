@@ -13,7 +13,7 @@ let svaml = require('./svaml');
 
 let callRouter = (req,res,next) => {
 	return new Promise((resolve, reject) => {
-		if (req.body.originationType === 'pstn'){
+		if (req.body.originationType === 'PSTN'){
 				inBound(req,res,next)
 				.then((reply) => {resolve(reply)})
 				.catch((err) => {
