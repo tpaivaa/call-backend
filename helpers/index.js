@@ -3,7 +3,7 @@
 let toKamailioWithWelcome = require('../callroutes').toKamailioWithWelcome;
 let toKamailio = require('../callroutes').toKamailio;
 let svaml = require('./svaml');
-let callRouter = require('./callRouter');
+let callRouter = require('./callRouter').callRouter;
 
 var numbers = [];
 let allowedCallIDs = [];
