@@ -215,8 +215,6 @@ let outBound = (req,res,next) => {
 				}
 			}
 		});
-	});
-	
 };
 
 module.exports = {
