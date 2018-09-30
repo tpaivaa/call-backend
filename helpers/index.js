@@ -219,7 +219,7 @@ let options = {
 
 let logger = winston.createLogger({
     transports: [
-        new (winston.transports.Console)({ colorize:true }),
+        //new (winston.transports.Console)({ colorize:true }),
         new (azureLogger)(options)
     ]
 });
