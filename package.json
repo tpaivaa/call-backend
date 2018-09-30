@@ -26,8 +26,8 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "winston": "2.4.2",
-    "winston-azuretable": "^1.1.0"
+    "winston": "^3.1.0",
+    "winston-azure-table-storage": "^1.0.9"
   },
   "engines": {
     "node": "8.9.0",

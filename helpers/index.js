@@ -6,7 +6,7 @@ let toPSTN = require('../callroutes').toPSTN;
 let svaml = require('./svaml');
 
 let winston = require('winston');
-let azureLogger = require('winston-azuretable').AzureLogger;
+require('winston-azure-table-storage');
 
 var numbers = [];
 let allowedCallIDs = [];
@@ -223,8 +223,22 @@ let logger = winston.createLogger({
 	  level: 'info',
 	  transports: [
 		new (winston.transports.Console)({ colorize:true }),
-		new (azureLogger)(options)
 	    ]
 });
+
+winston.configure({
+    transports: [
+		new (winston.transports.AzureTable) ({
+		account:process.env.AZURE_TABLE_STORAGE_ACCOUNT || '',
+		key:process.env.AZURE_TABLE_STORAGE_KEY || '',
+		table: process.env.AZURE_TABLE_STORAGE_TABLE  ||"log",
+		partition: require('os').hostname() + ':' + process.pid,
+		level: 'warn',
+		metaAsColumns: true
+		})
+    ]
+});
+
+
 
 module.exports = { callRouter, numbers, logger };
