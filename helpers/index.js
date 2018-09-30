@@ -210,33 +210,20 @@ let inCallhandle = (req,res,next) => {
 			}
 		});
 };
-let options = {
-            account:process.env.AZURE_TABLE_STORAGE_ACCOUNT || '',
-            key:process.env.AZURE_TABLE_STORAGE_KEY || '',
-            level:process.env.LOG_LEVEL || 'warn',
-            //partitionKey: require('os').hostname() + ':' + process.pid,
-            tableName: 'test',
-            useDevStorage : false
-        }
 
 let logger = winston.createLogger({
 	  level: 'info',
 	  transports: [
 		new (winston.transports.Console)({ colorize:true }),
-	    ]
-});
-
-winston.configure({
-    transports: [
 		new (winston.transports.AzureTable) ({
 		account:process.env.AZURE_TABLE_STORAGE_ACCOUNT || '',
 		key:process.env.AZURE_TABLE_STORAGE_KEY || '',
-		table: process.env.AZURE_TABLE_STORAGE_TABLE  ||"log",
+		table: process.env.AZURE_TABLE_STORAGE_TABLE  || 'log',
 		partition: require('os').hostname() + ':' + process.pid,
-		level: 'warn',
+		level: 'info',
 		metaAsColumns: true
 		})
-    ]
+	    ]
 });
 
 
