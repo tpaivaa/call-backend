@@ -17,7 +17,7 @@ function logResponseBody(req, res, next) {
 // intercept all requests and set response type to json, and log it for debug 
   res.setHeader('Content-Type', 'application/json');
   //console.log(JSON.stringify(req.body, null, 2));
-  helpers.logger.log(JSON.stringify(req.body, null, 2));
+  helpers.logger.log('info',JSON.stringify(req.body, null, 2));
   next();
 }
 

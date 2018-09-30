@@ -45,14 +45,14 @@ let addCallIDToArray = (callid, arr, dir) => {
 	arr = allowedCallIDs;	
 
 	//console.log('Adding to allowed id\'s array callid : ',callid);
-	logger.log('Adding to allowed id\'s array callid : ',callid);
+	logger.log('info','Adding to allowed id\'s array callid : ',callid);
 	arr.push(callid);
 };
 
 let removeCallIDFromArray = (callid, arr, dir) => {
 	arr = allowedCallIDs;	
 	//console.log('Removing from array callid :',callid);
-	logger.log('Removing from array callid :',callid);
+	logger.log('info','Removing from array callid :',callid);
 	delete arr[callid];
 };
 
@@ -123,7 +123,7 @@ let inBound = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ice'){
 				//console.log('|--> inBound CALL START');
-				logger.log('|--> inBound CALL START');
+				logger.log('info','|--> inBound CALL START');
 				let callerID = '+' + req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.rdnis, inKamailio)) {
@@ -132,7 +132,7 @@ let inBound = (req,res,next) => {
 				}
 				else {
 					//console.log('Call rejected callid: ',req.body.callid);
-					logger.log('Call rejected callid: ',req.body.callid);
+					logger.log('info','Call rejected callid: ',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
 			}
@@ -162,7 +162,7 @@ let outBound = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ice'){
 				//console.log('|--> outBound CALL START');
-				logger.log('|--> outBound CALL START');
+				logger.log('info','|--> outBound CALL START');
 				let callerID = req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.cli, inKamailio)) {
@@ -171,7 +171,7 @@ let outBound = (req,res,next) => {
 				}
 				else {
 					//console.log('Call rejected callid: ',req.body.callid);
-					logger.log('Call rejected callid: ',req.body.callid);
+					logger.log('info','Call rejected callid: ',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
 			}
@@ -193,7 +193,7 @@ let inCallhandle = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ace') {
 				//console.log('>-- ANSWER -->');
-				logger.log('>-- ANSWER -->');
+				logger.log('info','>-- ANSWER -->');
 			    if (isCallidInArray(req.body.callid)) {
 			      resolve(svaml.action.continue);
 			 	} 
@@ -205,8 +205,8 @@ let inCallhandle = (req,res,next) => {
 				removeCallIDFromArray(req.body.callid);
 				//console.log('>--| inBound CALL END');
 				//console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
-				logger.log('>--| inBound CALL END');
-				logger.log('Removed from allowedCallIDs array callid : ', req.body.callid);
+				logger.log('info','>--| inBound CALL END');
+				logger.log('info','Removed from allowedCallIDs array callid : ', req.body.callid);
 			}
 		});
 };

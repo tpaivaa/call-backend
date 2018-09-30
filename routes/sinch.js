@@ -8,12 +8,12 @@ router.post('/', function (req, res, next) {
 	helpers.callRouter(req,res,next)
 			.then((reply) => {
 				//console.log(JSON.stringify(reply));
-				helpers.logger.log(JSON.stringify(reply));
+				helpers.logger.log('info',JSON.stringify(reply));
 				res.json(reply);
 			})
 			.catch((err) => {
 				//console.log(err);
-				helpers.logger.log(err);
+				helpers.logger.'error',log(err);
 				res.json(helpers.rejectCall);
 			});
 });
