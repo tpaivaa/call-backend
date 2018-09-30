@@ -7,11 +7,13 @@ let helpers = require('../helpers');
 router.post('/', function (req, res, next) {
 	helpers.callRouter(req,res,next)
 			.then((reply) => {
-				console.log(JSON.stringify(reply));
+				//console.log(JSON.stringify(reply));
+				helpers.log(JSON.stringify(reply));
 				res.json(reply);
 			})
 			.catch((err) => {
-				console.log(err);
+				//console.log(err);
+				helpers.log(err);
 				res.json(helpers.rejectCall);
 			});
 });

@@ -5,6 +5,9 @@ let toKamailio = require('../callroutes').toKamailio;
 let toPSTN = require('../callroutes').toPSTN;
 let svaml = require('./svaml');
 
+let winston = require('winston');
+require('winston-azure').Azure;
+
 var numbers = [];
 let allowedCallIDs = [];
 const inKamailio = [
@@ -41,13 +44,15 @@ let isCallidInArray = (callid, arr) => {
 let addCallIDToArray = (callid, arr, dir) => {
 	arr = allowedCallIDs;	
 
-	console.log('Adding to allowed id\'s array callid : ',callid);
+	//console.log('Adding to allowed id\'s array callid : ',callid);
+	log('Adding to allowed id\'s array callid : ',callid);
 	arr.push(callid);
 };
 
 let removeCallIDFromArray = (callid, arr, dir) => {
 	arr = allowedCallIDs;	
-	console.log('Removing from array callid :',callid);
+	//console.log('Removing from array callid :',callid);
+	log('Removing from array callid :',callid);
 	delete arr[callid];
 };
 
@@ -117,7 +122,8 @@ let callRouter = (req,res,next) => {
 let inBound = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ice'){
-				console.log('|--> inBound CALL START');
+				//console.log('|--> inBound CALL START');
+				log('|--> inBound CALL START');
 				let callerID = '+' + req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.rdnis, inKamailio)) {
@@ -125,7 +131,8 @@ let inBound = (req,res,next) => {
 					resolve(toKamailio(callerID,calledID,null)); // callerID,calledID,recordCall
 				}
 				else {
-					console.log('Call rejected callid: ',req.body.callid);
+					//console.log('Call rejected callid: ',req.body.callid);
+					log('Call rejected callid: ',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
 			}
@@ -154,7 +161,8 @@ let inBound = (req,res,next) => {
 let outBound = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ice'){
-				console.log('|--> outBound CALL START');
+				//console.log('|--> outBound CALL START');
+				log('|--> outBound CALL START');
 				let callerID = req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.cli, inKamailio)) {
@@ -162,7 +170,8 @@ let outBound = (req,res,next) => {
 					resolve(toPSTN(callerID,calledID,null)); // callerID,calledID,recordCall
 				}
 				else {
-					console.log('Call rejected callid: ',req.body.callid);
+					//console.log('Call rejected callid: ',req.body.callid);
+					log('Call rejected callid: ',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
 			}
@@ -183,7 +192,8 @@ let outBound = (req,res,next) => {
 let inCallhandle = (req,res,next) => {
 	return new Promise((resolve, reject) => {
 		if (req.body.event === 'ace') {
-				console.log('>-- ANSWER -->');
+				//console.log('>-- ANSWER -->');
+				log('>-- ANSWER -->');
 			    if (isCallidInArray(req.body.callid)) {
 			      resolve(svaml.action.continue);
 			 	} 
@@ -193,9 +203,24 @@ let inCallhandle = (req,res,next) => {
 			}
 		else if (req.body.event === 'dice') {
 				removeCallIDFromArray(req.body.callid);
-				console.log('>--| inBound CALL END');
-				console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
+				//console.log('>--| inBound CALL END');
+				//console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
+				log('>--| inBound CALL END');
+				log('Removed from allowedCallIDs array callid : ', req.body.callid);
 			}
 		});
 };
-module.exports = { callRouter, numbers };
+
+let log = new (winston.Logger)({
+    transports: [
+        new (winston.transports.Console)({ colorize:true }),
+        new (winston.transports.Azure)({
+            account:process.env.AZURE_TABLE_STORAGE_ACCOUNT || 'YOUR_TABLE_STORAGE_ACCOUNT_NAME',
+            key:process.env.AZURE_TABLE_STORAGE_KEY || 'YOUR_TABLE_STORAGE_ACCOUNT_KEY',
+            level:process.env.LOG_LEVEL || 'warn',
+            partition: require('os').hostname() + ':' + process.pid
+        })
+    ]
+});
+
+module.exports = { callRouter, numbers, log };

@@ -1,21 +1,23 @@
 "use strict";
 // add requires
-var express = require('express');
-var bodyParser = require('body-parser');
-var routes = require('./routes');
-var sinch = require('./routes/sinch');
+let express = require('express');
+let bodyParser = require('body-parser');
+let routes = require('./routes');
+let sinch = require('./routes/sinch');
 const siptestkey = process.env.siptestkey || '';
 const siptestsecret = process.env.siptestsecret || '';
+let helpers = require('./helpers');
 
 //set up an app
-var app = express();
+let app = express();
 //configure on what port express will create your app
-var port = process.env.PORT || 5000;
+let port = process.env.PORT || 5000;
 
 function logResponseBody(req, res, next) {
 // intercept all requests and set response type to json, and log it for debug 
   res.setHeader('Content-Type', 'application/json');
-  console.log(JSON.stringify(req.body, null, 2));
+  //console.log(JSON.stringify(req.body, null, 2));
+  helpers.log(JSON.stringify(req.body, null, 2));
   next();
 }
 

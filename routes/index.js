@@ -6,6 +6,7 @@ var helpers = require('../helpers');
 
 router.get('/', function (req, res, next) {
 	// lets reply something that we are up and running
+	helpers.log('Some just queried / -> we replied status: running');
 	res.json({status: 'running'});
 });
 
