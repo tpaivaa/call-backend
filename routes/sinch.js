@@ -13,7 +13,7 @@ router.post('/', function (req, res, next) {
 			})
 			.catch((err) => {
 				//console.log(err);
-				helpers.logger.'error',log(err);
+				helpers.logger.log('error',err);
 				res.json(helpers.rejectCall);
 			});
 });
