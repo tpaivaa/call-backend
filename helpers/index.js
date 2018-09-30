@@ -211,7 +211,7 @@ let inCallhandle = (req,res,next) => {
 		});
 };
 
-let log = new winston.createLogger({
+let log = winston.createLogger({
     transports: [
         new (winston.transports.Console)({ colorize:true }),
         new (winston.transports.Azure)({
