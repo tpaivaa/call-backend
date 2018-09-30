@@ -215,14 +215,17 @@ let options = {
             key:process.env.AZURE_TABLE_STORAGE_KEY || '',
             level:process.env.LOG_LEVEL || 'warn',
             partitionKey: require('os').hostname() + ':' + process.pid,
-            tableName: 'test'
+            tableName: 'test',
+            useDevStorage : false
         }
 
 let logger = winston.createLogger({
-    transports: [
-        //new (winston.transports.Console)({ colorize:true }),
-        new (azureLogger)(options)
-    ]
+	  level: 'info',
+	  format: winston.format.json(),
+	  transports: [
+		//new (winston.transports.Console)({ colorize:true }),
+		new (azureLogger)(options)
+	    ]
 });
 
 module.exports = { callRouter, numbers, logger };
