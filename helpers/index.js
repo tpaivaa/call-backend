@@ -214,7 +214,7 @@ let options = {
             account:process.env.AZURE_TABLE_STORAGE_ACCOUNT || '',
             key:process.env.AZURE_TABLE_STORAGE_KEY || '',
             level:process.env.LOG_LEVEL || 'warn',
-            partitionKey: require('os').hostname() + ':' + process.pid,
+            //partitionKey: require('os').hostname() + ':' + process.pid,
             tableName: 'test',
             useDevStorage : false
         }
