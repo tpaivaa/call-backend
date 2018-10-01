@@ -213,9 +213,9 @@ let inCallhandle = (req,res,next) => {
 
 let logger = winston.createLogger({
 	  level: 'info',
-	  format: format.combine(
-        format.splat(),
-        format.simple()
+	  format: winston.format.combine(
+        winston.format.splat(),
+        winston.format.simple()
   	  ),
 	  transports: [
 		new (winston.transports.Console)({ colorize:true }),
