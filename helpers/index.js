@@ -45,14 +45,14 @@ let addCallIDToArray = (callid, arr, dir) => {
 	arr = allowedCallIDs;	
 
 	//console.log('Adding to allowed id\'s array callid : ',callid);
-	logger.log('info','Adding to allowed id\'s array callid : ',callid);
+	logger.log('info','Adding to allowed id\'s array callid : %s',callid);
 	arr.push(callid);
 };
 
 let removeCallIDFromArray = (callid, arr, dir) => {
 	arr = allowedCallIDs;	
 	//console.log('Removing from array callid :',callid);
-	logger.log('info','Removing from array callid :',callid);
+	logger.log('info','Removing from array callid : %s',callid);
 	delete arr[callid];
 };
 
@@ -132,7 +132,7 @@ let inBound = (req,res,next) => {
 				}
 				else {
 					//console.log('Call rejected callid: ',req.body.callid);
-					logger.log('info','Call rejected callid: ',req.body.callid);
+					logger.log('info','Call rejected callid: %s',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
 			}
@@ -171,7 +171,7 @@ let outBound = (req,res,next) => {
 				}
 				else {
 					//console.log('Call rejected callid: ',req.body.callid);
-					logger.log('info','Call rejected callid: ',req.body.callid);
+					logger.log('info','Call rejected callid: %s',req.body.callid);
 					reject(calledID + ' number not in allowed list');
 				}
 			}
@@ -206,7 +206,7 @@ let inCallhandle = (req,res,next) => {
 				//console.log('>--| inBound CALL END');
 				//console.log('Removed from allowedCallIDs array callid : ', req.body.callid);
 				logger.log('info','>--| inBound CALL END');
-				logger.log('info','Removed from allowedCallIDs array callid : ', req.body.callid);
+				logger.log('info','Removed from allowedCallIDs array callid : %s', req.body.callid);
 			}
 		});
 };
