@@ -216,7 +216,7 @@ let logger = winston.createLogger({
 	  format: format.combine(
         format.splat(),
         format.simple()
-  	  )
+  	  ),
 	  transports: [
 		new (winston.transports.Console)({ colorize:true }),
 		new (winston.transports.AzureTable) ({
