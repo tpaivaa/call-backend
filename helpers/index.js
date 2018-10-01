@@ -213,6 +213,10 @@ let inCallhandle = (req,res,next) => {
 
 let logger = winston.createLogger({
 	  level: 'info',
+	  format: format.combine(
+        format.splat(),
+        format.simple()
+  	  )
 	  transports: [
 		new (winston.transports.Console)({ colorize:true }),
 		new (winston.transports.AzureTable) ({
