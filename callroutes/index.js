@@ -1,5 +1,7 @@
 "use strict";
 
+const sipServer = "sipe.lucentia.com"
+
 var toKamailioWithWelcome = (message,callerID,calledID,recordCall) => {
 
 	return {
@@ -12,7 +14,7 @@ var toKamailioWithWelcome = (message,callerID,calledID,recordCall) => {
 			{
 			    name : "ConnectSIP",
 			    destination : {
-			    		endpoint: calledID + "@obelix2.lucentia.com" },
+			    		endpoint: calledID + "@" + sipServer },
 			    maxDuration : 3000,
 			    cli : callerID || "private",
 			    record : recordCall || false,
@@ -27,7 +29,7 @@ var toKamailio = (callerID,calledID,recordCall) => {
 		Action:
 			{
 			    name: "ConnectSIP",
-			    destination: { endpoint: calledID + "@obelix2.lucentia.com" },
+			    destination: { endpoint: calledID + "@" + sipServer},
 				maxDuration: 3000,
 				cli: callerID || "private",
 				record: recordCall || false,
