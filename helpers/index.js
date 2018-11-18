@@ -124,7 +124,7 @@ let inBound = (req,res,next) => {
 		if (req.body.event === 'ice'){
 				//console.log('|--> inBound CALL START');
 				logger.log('info','|--> inBound CALL START');
-				let callerID = '+' + req.body.cli;
+				let callerID = req.body.cli;
 				let calledID = req.body.to.endpoint;
 				if (lookUpNumber(req.body.rdnis, inKamailio)) {
 					addCallIDToArray(req.body.callid, null, 'in');
